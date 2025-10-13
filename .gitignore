@@ -1,0 +1,33 @@
+# Ignore generated caches anywhere (root or subfolders)
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Mm]emoryCaptures/
+UserSettings/
+
+# Your specific project dir too (belt + suspenders)
+Mixamo_animations_FPS/Library/
+Mixamo_animations_FPS/Temp/
+Mixamo_animations_FPS/obj/
+Mixamo_animations_FPS/Logs/
+Mixamo_animations_FPS/Build/
+Mixamo_animations_FPS/Builds/
+Mixamo_animations_FPS/UserSettings/
+Mixamo_animations_FPS/WebGL Builds/
+Mixamo_animations_FPS/connectwebgl.zip
+
+# IDE junk
+.vs/
+.vscode/
+*.csproj
+*.sln
+*.suo
+*.user
+*.userprefs
+
+# OS junk
+.DS_Store
+Thumbs.db

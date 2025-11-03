@@ -1,5 +1,6 @@
-using UnityEngine;
+using FishNet.Managing;
 using FishNet.Object;
+using UnityEngine;
 
 public class NewMonoBehaviourScript : NetworkBehaviour
 {
@@ -11,20 +12,56 @@ public class NewMonoBehaviourScript : NetworkBehaviour
 
     private enum Scheme { WASD, ARROWS }
     private Scheme scheme;
+    private Rigidbody rb;
+    private NetworkManager _networkManager;
+    private int clientID = 0; // set in OnStartClient
 
 
+
+
+
+    //public override void OnStartClient()
+    //{
+
+    //    base.OnStartClient();
+    //    // Assign unique tags based on owner ID
+    //    if (IsOwner)
+    //    {
+    //        // Find the one and only MainCamera
+    //        GameObject mainCam = GameObject.FindWithTag("MainCamera");
+    //        // For this client, tell that MainCamera to point to and follow this client's player.
+    //        // (All the other clients will have Main Camera point to their players)
+    //        mainCam.GetComponent<FollowPlayer>().player = this;
+    //        //change the car model for each player based on their owner ID
+
+
+    //    }
+    //}
     public override void OnStartClient()
     {
-        
-        base.OnStartClient();
-        // Assign unique tags based on owner ID
+        base.OnStartClient(); // call parent method. DON'T FORGET TO DO THIS!
         if (IsOwner)
         {
-            // Find the one and only MainCamera
+            rb = GetComponent<Rigidbody>();
+            _networkManager = FindFirstObjectByType<NetworkManager>();
+
+            // Find the one and only MainCamera, and make its "car" field point back here
             GameObject mainCam = GameObject.FindWithTag("MainCamera");
-            // For this client, tell that MainCamera to point to and follow this client's player.
+            // For each client, its MainCamera will follow this client's player (car).
             // (All the other clients will have Main Camera point to their players)
             mainCam.GetComponent<FollowPlayer>().player = this;
+
+
+            // assign player a random xOffset
+            float r = Random.value; // 0 to 1
+            float xOffset = r * 10 - 5; // -5 to 5
+
+            // Or better, assign player to an xOffset based on its  clientID 
+            clientID = _networkManager.ClientManager.Clients.Count;
+            xOffset = -20f + clientID * 10.0f;
+            Debug.Log(" clientID  is " + clientID.ToString());
+
+            transform.Translate(new Vector3(xOffset, 0, 0));
         }
     }
     void Awake()
